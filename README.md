@@ -9,7 +9,8 @@ Course offered by IOG, you can find accompanying information within the builders
 **Notes**
 
 1. [Welcome Lecture, Blockchains, Cryptocurrencies, Beyond Generic Blockchains, Ideals, Hashing Functions, Transactional Ordering, Digital Signatures, Forking, Consensus Protocols, Consensus Properties (Termination, Agreement, Strong Validity), Transactions, Blocks, Fees, IOHK, Haskell](010-Welcome.md)
-2. Currently being written...
+2. [An overview of Haskell, Goals, History, Features, Algebraic Data Types, Type Inference, Type Classes, Data Constructors, Type Constructors, Polymorphism and Parametric Polymorphism, Referential Transparency, Eval, Functions, Nomenclature, Examples, Pattern Matching, Equational Reasoning, (To Be Continued...)](011-An-Overview-of-Haskell.md)
+3. Not Yet Started...
 
 **Authors Note**
 
