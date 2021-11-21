@@ -1,5 +1,7 @@
 # haskell-notes | README.md
 
+*These are my own notes, so take them for what they are. For instance, there may be some misleading details if I have misunderstood something; as far as learning materials go, these notes are here mainly as a source of 'self-help' - I tend to learn best through writing (or typing) things down and following exercises.*
+
 **Haskell and Cryptocurrencies Notes**
 
 Course offered by IOG, you can find accompanying information within the builders / pioneers announcements @ the IOG discord technical server.
