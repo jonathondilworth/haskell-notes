@@ -1,10 +1,40 @@
 ### An Overview of Haskell
 
-* Marlowe is a DSL turned Standalone language.
-* Plutus is pretty much Haskell, Plutus Core is System F or a System F variant, right? But Plutus' off-chain code IS Haskell and Plutus' on-chain code (before it is compiled) makes heavy use of Haskell for it's 'boilerplate' then template Haskell for compiling to core, with some quirks, wrapMintingPolicy seems to come to mind (which, again - I believe it has to do with the IRs for PlutusTx and the compilation pipeline from Haskell/Plutus to Plutus Core; I'm probably just an idiot who got lost and confused from trying to understand things far beyond my ability to do so, so perhaps ignore that last part).
-* Apparently I did this whole thing backwards. Plutus Pioneer Program probably should have come after having taken this set of lectures. Although, I didn't quite realise how little we actually learnt about Haskell within university... My apologies for wasting a potential slot. But, I'm doing my best to catch up here.
+**Introduction**
 
-**Goals**
+Initially, we're going to touch on some elements of Plutus and how it differs from Haskell. Then, we'll briefly mention Marlowe and how I've accidentally been walking through this whole process backwards. Shortly thereafter, the goals of this lecture are available for review, with a fancy quote. Some history is fondly remembered (by some). The meat and potatoes are presently shortly thereafter (meaning, Haskell features). Right, I'm going to write the remainder out as an unordered list:
+
+* Algebraic Data Types
+* Type Inference
+* Type Classes
+* Data Constructors
+* Type Constructors
+* Polymorphism and Parametric Polymorphism
+* Referential Transparency
+* Evaluation
+* Functions
+* Nomenclature
+* Examples
+* Pattern Matching
+* Equational Reasoning (and why it's important)
+* Some More Functionz!
+* Currying
+* Symbolic Operators and Identifiers
+* What Not To Do... (Symbolic Operator Implementation)
+* Something A Little More Reasonable...
+* Associativity of Infix Functions (and Operators)
+* A Question About Higher Order Functions
+
+**Let's Get To It!**
+
+### 1. Plutus, Haskell & The Works
+
+* Plutus is pretty much Haskell, Plutus Core is System F or a System F variant (if I understand correctly, at the very least the intermediary languages used as 'stepping stones' between the source and target are system F variant languages). But Plutus' off-chain code **IS Haskell** and Plutus' on-chain code (before it is compiled) makes heavy use of Haskell for it's *'boilerplate'* then **template Haskell for compiling to core, with some quirks**, wrapMintingPolicy seems to come to mind (which, again - I believe it has to do with the IRs for PlutusTx and the compilation pipeline from Haskell/Plutus to Plutus Core. With that said, I'm probably just an idiot who got lost and confused from trying to understand things far beyond his ability to do so! So, perhaps ignore that last part).
+* Marlowe is a DSL turned Stand-alone language.
+
+*Apparently I did this whole thing backwards. Plutus Pioneer Program probably should have come after having taken this set of lectures. Although, I didn't quite realise how little we actually learnt about Haskell within university... My apologies for wasting a potential slot. But, I'm doing my best to catch up here.*
+
+### 2. Goals
 
 1. What is Haskell?
 2. Provide a few examples of Haskell.
@@ -16,7 +46,7 @@
 
 *I include quotes where I want, these are my notes, get use to it.*
 
-**What is Haskell: History**
+### 3. What is Haskell: History
 
 * Universities had too many variants of languages
 * Wanted to 'standardise' a language
@@ -28,7 +58,7 @@
 * GHC, Open Development Model, sounds kind of like the Linux Kernel in terms of development
 * GHC perceived to be 'rock solid'
 
-**Haskell Features**
+### 4. Haskell Features
 
 * Functional
 * Statically Typed
@@ -47,7 +77,7 @@
 
 * Lazy Evaluation - didn't really go into much detail here, but essentially, from what I understand already, the computer is only going to compute when it needs to.
 
-**Datatypes and Functions**
+### 4.1 Datatypes and Functions
 
 ```haskell
 data Chain =
@@ -173,7 +203,7 @@ Somewhat long-winded answer, and I'm going to feel like an absolute fool if I'm 
 
 **Well, thank god for that.**
 
-### Pattern Matching Explained
+### 5. Pattern Matching
 
 *I was always kind of confused as to what exactly pattern matching was...*
 
@@ -196,13 +226,186 @@ The example from the lecture:
 
 An important way to think about functional equivalence, is one program equal to another program?
 
-### I think I'm going to take a bit of a break...
+**Some More On Functions: Testing For A Particular Block**
 
-So, I've been through all this stuff before on the Intro to FP (UoE), but what I would say is that this all feels pretty fast paced compared to INF1A (albeit, it is an undergraduate module). Even though I am just reinforcing what I've already learnt, it's helpful to get multiple perspectives and I bet I'm still wrong half the time! So, I think it's just a case of continuing to learn and really reinforce this mindset / programming paradigm, because it really is quite different and it really is quite difficult. But I feel like I am getting there now, ecp. since I've been following along in GHCi and I give these lectures the time of day they deserve such that I can really digest the content. At my current rate I could only actually do two lectures per day whilst also creating this documentation for myself.
+```haskell
+Prelude> :{
+Prelude| hasBlock x GenesisBlock = False
+Prelude| hasBlock x (Block c t) =
+Prelude|   x == t || hasBlock x c
+Prelude| :}
+Prelude> -- GenesisBlock is a data cons with signature :: Chain
+Prelude> -- it looks like x should be of type Txs to be semantically correct
+Prelude> -- at least, that is how it looks to me...
+Prelude> -- thus, the signature should be...
+Prelude> -- hasBlock :: Txs -> Chain -> Bool
+Prelude> -- GHCi will have already determined the signature, let's check...
+Prelude> :t hasBlock
+hasBlock :: Txs -> Chain -> Bool
+Prelude> -- HURRAY! I'm so proud of myself (:
+Prelude> -- too bad I didn't use a block comment, this code is going to
+Prelude> -- get ripped to shreds in review.
+Prelude> -- Oh, wow, I didn't know you could infer types from composite calls:
+Prelude> :t chainLength chain42'
+chainLength chain42' :: Int
+Prelude> -- should probably make a note that these 'arguments' are known
+Prelude> -- as "formal parameters"
+```
 
-As I said, I move at a snails pace. Right, so lecture is paused at 34:02. I'll probably context switch and finish the rest of lecture 5 of the [BDL course (INFR11144)](http://www.drps.ed.ac.uk/20-21/dpt/cxinfr11144.htm).
+### 6. Currying
 
-<hr />
+*Author: this is what I thought currying is/was: Outputs from one function are inputs to another?*
+
+I was initially finding it a little difficult to contrast my assumed notion of what currying was to the 'definition' as provided within the lecture (which could maybe be explained just a tad better, please do bear in mind I am a moron and I learn at a snails pace, I am likely of low aptitude, but I refuse to give up).
+
+Looking at the example within the lecture (and spending some more time reading):
+
+```haskell
+hasBlock              ::      Txs -> (Chain -> Bool)
+hasBlock 4            ::              Chain -> Bool
+(hasBlock 4) chain 2  ::                       Bool
+```
+
+I do understand the concept (famous last words?). Since a function in Haskell (at its most base form) only accepts one argument, all functions are essentially curried. 'Currying' would appear to me to be a rather Haskell-esque word to convey a language property which describes functional composition. Since there is a relationship between functional composition and their type signatures, we also consider type signatures when currying.
+
+*Question: would a fair definition of currying be: given a function, it is possible to transform it into a set of functions, where the output of one is another function and becomes the input of another, until the set of functions provides the same implementation/output as the original function? OR: is the original function literally an ordered set of functions: F, such that for all elements in F, each element f only takes one argument and returns another element f? Having unpaused the video and read some more about currying - probably spending too much time on this, but I am pretty sure I understand what is going on, but I suppose my question really would be: what would be a concise and intuitive definition of the concept of currying within Haskell? A further question would be: do concise and intuitive definitions of exist within the world of Haskell? That last one is tongue-in-cheek.*
+
+### 7. A Quick Note On Operators
+
+Operators are just identifiers. But what does this mean?
+
+An operator is a function which can be represented by an identifier, where an identifier is either a Haskell-esque naming convention (such as the the use of prime ```'``` in equivalent functions) or a symbol, known as an **operator symbol**.
+
+<details>
+
+<summary>I Thought Operators Were Constructors?</summary>
+
+Naturally, (before going and doing some reading) I was asking myself: what is an identifier? I thought operators were actually data constructors, for example, if you were to implement propositional logic as a data type, surly ```(&&)``` and ```(||)``` and ```not``` would be data constructors which returned a type of Proposition? Example:
+
+```haskell
+type Name = String
+data Propositional = Var Name
+                   | T
+                   | F
+                   | Not Propositional
+                   | Propositional :||: Propositional
+                   | Propositional :&&: Propositional
+                   deriving (Eq, Show)
+                   
+-- here be ye implementation!
+-- see: code_examples for an actual implementation.
+-- Implementation from my other Haskell notes which reference INF1A, University of Edinburgh
+```
+
+***Just FYI: I have only done a couple of short Haskell courses for beginners, I am no where near as comfortable with Haskell as I would be with many other imperative languages. I am, however, beginning to enjoy this, I am not trying to look clever (in fact, I usually try and laugh at myself because I'm likely wrong > 51% of the time), I'm just being inquisitive.***
+
+</details>
+
+**Remember:** be careful about using infix and prefix notion styles when writing code that is to be read by others. Further it's probably not a great idea to start defining new and strange operator symbols for functions which may make things confusing. In short, it's always a good idea to follow an agreed upon convention. Usually there is also a set of adopted conventions for any given language. Haskell kind of rocks the boat with this one to be honest, but we do have our own conventions and it is a good idea to follow them.
+
+**Examples:**
+
+1. (x:xs)
+2. exp == exp'
+3. short formal parameter names (usually: x, n, or similar)
+4. explicit function declarations are encouraged (func :: Num a => a -> a -> a)
+5. etc
+
+**GHCi: Info**
+
+Great to know about the info command. GHCi info command ```:i```
+
+```haskell
+Prelude> :i (||)
+(||) :: Bool -> Bool -> Bool 	-- Defined in ‘GHC.Classes’
+infixr 2 ||
+Prelude> -- infix right with priority 2 (binding priority)
+```
+
+**A Short Tutorial: What Not To Do.**
+
+```haskell
+Prelude> :{
+Prelude| (|-|<<<<-<<<|-|<<<-<<<|-|>) :: Chain -> Txs -> Chain
+Prelude| (|-|<<<<-<<<|-|<<<-<<<|-|>) = Block
+Prelude| infixl 5 |-|<<<<-<<<|-|<<<-<<<|-|>
+Prelude| :}
+Prelude> chain42'' = (|-|<<<<-<<<|-|<<<-<<<|-|>) chain1 42
+Prelude> chain42'' == chain42'
+True
+Prelude> chain42'' == chain1
+False
+Prelude>
+```
+**Something More Reasonable.**
+
+```haskell
+Prelude> :{
+Prelude| (!>) :: Chain -> Txs -> Chain
+Prelude| (!>) = Block
+Prelude| infixl 5 !>
+Prelude| :}
+Prelude> chain42''' = (!>) chain1 42
+Prelude> chain42''' == chain42'
+True
+Prelude> chain42''' == chain1
+False
+Prelude> chain42'''' = chain1 !> 42
+Prelude> chain42'''' == chain42'
+True
+Prelude> chain42'''' == chain1
+False
+Prelude>
+```
+
+Honestly, I'm not sure what Haskell people think about this, I mean, is it reasonable? It is much more readable than the previous example (obviously), and a lot of Haskell folk are mathematicians, so perhaps they have an affinity for symbolic operators, whereas I would probably prefer a descriptive word as a function. Nevertheless, this version of the code is much more readable and thus much easier to use infix too.
+
+**Left vs Right Associativity**
+
+Why is this important?
+
+Well (as far as I understand), for GHC to determine the order of evaluation between multiple functions, in some instances you will need to include brackets. However, for infix function calls, you can essentially chain them together if they have a left or right associative property. Furthermore, the evaluation order can be determined at compile time. Thus, there is no requirement to include brackets explicitly.
+
+In addition, left and right associativity does produce different results for different functions, and the associative property matters in this respect. For example (from the lecture), we can see that if a minus function: 5 - 2 - 2 would usually equal 1 (given that (-) is ```infixl```). However, if we were to define our own infix function, say ```(!*)``` as ```infixr 6 !*``` and equate it to ```(-)```, but reverse its associative property ```infixr 6 !*```, we see the following:
+
+```haskell
+Prelude> :{
+Prelude| (!*) :: Num p => p -> p -> p
+Prelude| (!*) = (-)
+Prelude| infixr 6 !*
+Prelude| :}
+Prelude> 5 !* 2 !* 2
+5
+Prelude> 5 - 2 - 2
+1
+Prelude>
+```
+
+Interestingly enough, when you apply these functions prefix and define your own ordering of evaluation, you can actually have ```(-)``` and ```(!*)``` evaluate to the same value, using the **(seemingly)** same ordering. 
+
+```haskell
+Prelude> (!*) ((!*) 5 2) 2
+1
+Prelude> 5 - 2 - 2
+1
+```
+
+I would like to add that there are some infix functions where left and right associativity make no difference in regards to the result of the evaluation. For example, addition:
+
+```haskell
+Prelude> :{
+Prelude| (+!) :: Num p => p -> p -> p
+Prelude| (+!) = (+)
+Prelude| infixr 6 +!
+Prelude| :}
+Prelude> 5 +! 5 +! 17
+27
+Prelude> 5 + 5 + 17
+27
+```
+
+*Question: Does the associativity property of an infix function matter when using higher order functions such as ```foldl``` and ```foldr```?*
+
 
 **References**
 
