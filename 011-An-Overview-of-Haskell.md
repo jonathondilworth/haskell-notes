@@ -65,11 +65,7 @@ Initially, we're going to touch on some elements of Plutus and how it differs fr
 * Algebraic Data Types
 * Type Inference and Polymorphism (type inference figures out a lot on its own, but I'm pretty sure being explicit is recommended, right? Even if you're using a polymorphic type, like Num, you can say: func :: Num p => p -> [p] -> p, now I can use doubles, floats, ints, integers, etc; I don't necessarily have to declare the function signature as above, because the type system can do that for me, right? But, I guess it makes it nicer to read, and how much code to we write vs read?)
 * Type Classes (Ermmm, am I correct in thinking data Constructors provide a means of implementing a type class? or is that just a Data Type? I'm sure we'll learn some more about this)
-* Type Classes implement parametric polymorphism and overloading which I do have some notes on from my first time trying to learn the haskellz:
-
-> **Polymorphism and Parametric Polymorphism** <br />
-> Polymorphism, I think is like the type Num, it can take on the role of an Int, Integer, Float, Double, etc. <br />
-> Parametric Polymorphism is... Essentially the same thing, right? I mean, it just predated the word 'generics' in OOP? It's a type (class) which implements the same 'functionality' when given as a parameter (to a function) such that the type can be implicitly defined within a given function. Issues are resolved at compile time?
+* Type Classes implement parametric polymorphism (and overloading).
 
 *Note: Some people probably wonder, I mean, I don't know who the heck would be reading my notes, but, I imagine they wonder why I even publish this stuff? Well, I guess I publish them to sort of document my journey with the intention of running it all past others when they're complete, like a peer-review process; and hopefully someone will be willing to check my work (maybe for some ADA?) and generally kind of help me? :)*
 
