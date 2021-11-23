@@ -126,12 +126,32 @@ Ouch! What a question -- "Premature Optimisation Is The Root Of All Evil!" -- pr
 
 Right, so I was pretty underwhelmed until the inference (Txs -> Bool) was demonstrated as inferable since (||) :: Bool -> Bool -> Bool, thus the result of prop t (or p t) has to be of type Bool. I must say, I found that to be fairly insightful.
 
-It is kind of strange, having such a loose way (or many ways) to define the same function / operation, whilst having such a strict type system at compile time, giving rise to this kind of 'being able to ask the computer for help' is pretty damn powerful! It also reminds me of the quote: "Constraints Liberate, Liberties Constrain" -- Runar Bjarnason.
+It is kind of strange, having such a loose way (or many ways) to define the same function / operation, whilst having such a strict type system at compile time, giving rise to this kind of 'being able to ask the computer for help' is pretty damn powerful!
 
 * Polymorphism
 * Parameterised Data Types (Parametric Polymorphism)
 
-*Temporarily Taking A Break*
+```haskell
+-- abstract from the type of transactions
+data Chain txs = GenesisBlock
+               | Block (Chain txs) txs
+               deriving(Show, Eq)
+```
+
+Within the above example, the element found within the type Block is *Generic*. Explicitly, the ```Chain``` data type is parameterised using the token (name/value) ```txs```. Thus ```Chain``` is a parameterised data type implementing parametric polymorphism (a subset of 'Generics' found across almost all languages).
+
+Furthermore, since this is still a **recursive** *parameterised* data type, the Block constructor (which takes an argument Chain) is also parameterised within this parametric style.
+
+This means that each Block within the Chain can be of any type, so long as for any given chain, the type remains constant. However, given multiple chains, the type can vary across different instances. In fact, this is *so cool* that you could even use a polymorphic type or even a polymorphic data type as the 'value' which occupies txs.
+
+Now, the type signatures of any given data constructor has changed for the parameterised data type ```Chain``` such that they are also now polymorphic:
+
+```haskell
+GenesisBlock :: Chain txs
+Block :: Chain txs -> txs -> Chain txs
+```
+
+*Question: Does the following statement make sense, and since referential transparency is maintained within Haskell (meaning it is forever pure), is this something we should be thinking about when writing our code? Ideally, you want to try your best to maintain data structures and their respective content as 'abstract' as possible before performing any kind of evaluation. Reason being, depending on the evaluation process (the function applied to any given data structure), you may be affecting the precision of the values stored therein (due to the nature of discrete systems). This is why we should consider using algebraic data types such as abstract syntax trees.*
 
 **Footnotes**
 
