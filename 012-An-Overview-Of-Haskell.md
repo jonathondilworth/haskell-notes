@@ -186,7 +186,6 @@ hasBlockProperty :: (txs -> Bool) -> Chain txs -> Bool
 * Functions (normal identifiers): camelCase.
 * Symbolic Constructors: enclosed within colons, e.g. (:&&&:).
 
-
 *Note: when I first started programming I never thought I would be using phrases like: a recursive generic data constructor for a parametric polymorphic data type.*
 
 *Question: Does the following statement make sense, and since referential transparency is maintained within Haskell (meaning it is forever pure), is this something we should be thinking about when writing our code? Ideally, you want to try your best to maintain data structures and their respective content as 'abstract' as possible before performing any kind of evaluation. Reason being, depending on the evaluation process (the function applied to any given data structure), you may be affecting the precision of the values stored therein (due to the nature of discrete systems). This is why we should consider using algebraic data types such as abstract syntax trees. (I'm thinking along the lines of: Constraints Liberate, Liberties Constrain; by Runar)*
@@ -228,8 +227,6 @@ length    ::    [Int]  -> Int -- fine
 length    ::    String -> Int -- fine
 ```
 If you really wanted to, you could modify the type signature of length by re-declaring the function as any of the above, they're all valid. Since: ```String :: [Char]```, a list of integers is foldable, and a list of some type a is foldable.
-
-Right? If not, please tell me <3
 
 ```haskell
 Prelude Data.List> :t elem
@@ -282,13 +279,34 @@ Prelude>
 
 **Comparing Functions**
 
-You cannot easily test functions for 'equality' within a discrete system... If I understand the constraints of 'equality' in its most general case correctly: given two functions, they must have the same domain and codomain. Further, for all elements within the domain, their values must equate. Thus, if you have a shit ton of potential values, it's kind of difficult to 'test' or prove f1 == f2, since you only have a discrete amount of memory to work with?
+You cannot easily test functions for 'equality' within a discrete system... If I understand the constraints of 'equality' in its most general case correctly: given two functions, they must have the same domain and codomain. Further, for all elements within the domain, their values must equate. Thus, if you have a large amount of potential values, it's difficult to 'test' or prove f1 == f2, since you only have a discrete amount of memory to work with?
 
-In addition, testing for behavioural equality is theoretically undesirable (so I've heard). Furthermore, since it took Russel & Whitehead a fairly lengthy amount of time (and pieces of paper) to prove that 1 + 1 = 2 (see: [[1]](#1)), I wouldn't be so bold to even attempt to prove, well, ANYTHING... This is likely due to my fairly low IQ and background in tomfoolery. However, for those abled individuals, I hear that Agda is the way to go?
+In addition, testing for behavioural equality is theoretically undecidable (so I've heard).
 
-**Polymorphic chains are quite similar to built-in lists**
+```haskell
+Prelude Data.List> (not (==)) == (/=)
 
-*Quick note on Lists and Cons... And some pondering, no panhandling!*
+<interactive>:110:6: error:
+    • Couldn't match expected type ‘Bool’
+                  with actual type ‘a0 -> a0 -> Bool’
+    • Probable cause: ‘(==)’ is applied to too few arguments
+      In the first argument of ‘not’, namely ‘(==)’
+      In the first argument of ‘(==)’, namely ‘(not (==))’
+      In the expression: (not (==)) == (/=)
+
+<interactive>:110:15: error:
+    • Couldn't match expected type ‘Bool’
+                  with actual type ‘a1 -> a1 -> Bool’
+    • Probable cause: ‘(/=)’ is applied to too few arguments
+      In the second argument of ‘(==)’, namely ‘(/=)’
+      In the expression: (not (==)) == (/=)
+      In an equation for ‘it’: it = (not (==)) == (/=)
+Prelude Data.List>
+```
+
+**Polymorphic chains are quite similar to built-in (packaged within the prelude) lists**
+
+*Quick note on Lists and Cons... And some pondering!*
 
 ```haskell
 Prelude> :t []
@@ -318,25 +336,49 @@ infixr 5 :
 Prelude Data.List>
 ```
 
-I'm fairly certain we can use... foldl to do some funky kinda music with cons and lists (recursively of course)..? Basically, I anticipate that folds will be spoken about next, please do pardon my tomfoolery. I have a PhD in tomfoolery (just kidding, I do have fairly good academic credentials, I just don't really deserve them if I'm completely honest lmao; in the real world you don't get an 'A for effort!' - it's a fucking grind).
+**Some Functions That Come 'Built In' - Provided In The Prelude**
 
-<details>
+* reverse :: [a] -> [a]
+* (++)    :: [a] -> [a] -> [a]
+* filter  :: (a -> Bool) -> [a] -> [a]
+* map     :: (a -> b) -> [a] -> [b]
 
-<summary>Alas, more tomfoolery.</summary>
+```haskell
+Prelude Data.List> exmp = [[1,2,3],[9,2,9],[9,9,9]] ++ [[9,9,3]]
+Prelude Data.List> exmp
+[[1,2,3],[9,2,9],[9,9,9],[9,9,3]]
+Prelude Data.List> reverse exmp
+[[9,9,3],[9,9,9],[9,2,9],[1,2,3]]
+Prelude Data.List> newexmp = reverse exmp
+Prelude Data.List> filter (\x -> x /= 9) (head newexmp)
+[3]
+Prelude Data.List> filter (\x -> x /= 9) (reverse (head newexmp))
+[3]
+Prelude Data.List> filter (\x -> x /= 9) (head (tail newexmp))
+[]
+Prelude Data.List> head (tail newexmp)
+[9,9,9]
+Prelude Data.List> :i filter
+filter :: (a -> Bool) -> [a] -> [a] 	-- Defined in ‘GHC.List’
+Prelude Data.List> :i fmap
+type Functor :: (* -> *) -> Constraint
+class Functor f where
+  fmap :: (a -> b) -> f a -> f b
+  ...
+  	-- Defined in ‘GHC.Base’
+Prelude Data.List> map (filter (\x -> x /= 9)) newexmp
+[[3],[],[2],[1,2,3]]
+Prelude Data.List>
+```
 
-**The Concept of a Reverse Lecture!**
+* id :: a -> a
+* const :: a -> b -> a
+* (+) :: Num a => a -> a -> a
+* (/) :: Fractional a => a -> a -> a
+* (<=) :: Ord a => a -> a -> Bool
+* show :: Show a => a -> String
 
-*I do suppose they did warn us, blast us with loads of difficult stuff, then pull it back. But...*
-
-We've gone from higher order functions and recursive parametric polymorphic data constructors to simple lists and (:); I mean, I guess it's relevant, since it's nice to know about recursive data types (strings are likely assembled through the use of... type Foldable?), but couldn't we have learnt something simple like: ```type String = [Char]``` first?!
-
-*... OH. Andres literally goes on to explain. My Apologies. Still, if you're looking for a good mechanism to scare people away, I think this reverse lecture style is a winner.*
-
-**See Overloading. TODO, add §x.x.**
-
-</details>
-
-*I REQUIRE a short break. Thanks.*
+40:14 into L1.3
 
 **References**
 
