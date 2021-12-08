@@ -378,7 +378,90 @@ Prelude Data.List>
 * (<=) :: Ord a => a -> a -> Bool
 * show :: Show a => a -> String
 
-40:14 into L1.3
+*Note: During the introduction to FP taught at Uo.Edinburgh, we discussed the identity of an operator such as ```(+)``` as being zero. This isn't hugely intuitive to individuals who have mainly studied computing or computer science from a software engineering perspective rather than a mathematical perspective. Thus, when it comes to higher order functions such as ```foldr``` or ```foldl``` understanding that zero is the identity for addition is quite important, or that one is the identity for multiplication. I'm just curious if there is a function in Haskell that provides the identity for these types of numeric functions? As if anyone mentioned the term 'identity function' to me, I would think: ```f(x) = x```, where as the identity of a function or an operator is actually quite different; and as recursion and higher order functions are used so much within areas of Haskell, it would seem to me to be a good idea to make this distinction.*
+
+<details>
+
+<summary>40:14 into L1.3</summary>
+
+I'm just jumping back into these Haskell lectures after having briefly reviewed notes from the first two lectures.
+
+</details>
+
+**Deriving Instances**
+
+The ```deriving``` keyword for use within code blocks that define data types is useful as it may save some time by ```deriving(Eq, Show, ...)```.
+
+*(in the notes it says classes and automagically, whereas Andres says types and automatically, maybe kind of nit picky, but for beginners conceptualising types, typeclasses, dataclasses and instances thereof can be somewhat confusing. Thus, ensuring a consistent nomenclature - even though a well-versed Haskell dev will know what you mean - is important IMO, as a beginner may become somewhat confused - I mean, I may even be confused here).*
+
+**Pure Functions**
+
+* Referential Transparency
+* Pure Functions Have No Side Effects
+* Side Effects Expressed Via IO Type
+
+```haskell
+f :: Int -> Int
+g :: Int -> IO Int -- result is not an Int, but an action
+```
+
+* Signatures that contain Monadic IO types are, from what I currently understand, fairly safe (or easier to handle).
+* Probably stay away from System.IO.Unsafe: unsafePerformIO for the time being...
+
+**Lazy Evaluation**
+
+Building a chain:
+
+```haskell
+build :: Int -> Chain Int
+build n =
+  if n <= 0
+    then GenesisBlock
+    else Block (build (n - 1)) n
+```
+
+Okay, so let's build a chain with argument ```10000000``` and 'pass the result' to hasBlockProp even 'result':
+
+```haskell
+hasBlockProp even (build 10000000)
+-- let's evaluate this by hand...
+hasBlockProp even
+  (if 10000000 <= 0
+    then GenesisBlock
+    else Block (build (10000000 - 1)) 10000000
+  )
+-- .. =
+hasBlockProp even
+  (if False
+    then GenesisBlock
+    else Block (build(1000000 - 1)) 10000000
+  )
+-- .. =
+hasBlockProp even
+  (Block (build (10000000 - 1)) 10000000)
+-- .. =
+even 10000000
+  || hasBlockProp even (build (10000000 - 1))
+-- .. =
+True
+  || hasBlockProp even (build (10000000 - 1))
+-- .. =
+True
+```
+
+* Lazy Evaluation > Eager Evaluation
+
+**Positive and Negative Surprises**
+
+I'm assuming the order of evaluation for certain functions can lead to negative surprises; e.g. execution time of foldr vs foldl on an operator such as cons (:)
+
+**Summary**
+
+* Defining Higher Order Functions
+* Polymorphism, Data Types & Pattern Matching
+* Type Classes
+* Lazy Evaluation
+* I was surprised to hear Idris and Agda mentioned, Idris seemed pretty interesting to me when I came across a lecture on it. However, I can't imagine ever really looking at Agda since I'm not a mathematician - I guess these languages and tools deserve a mention, given that this is the first week of an.. introductory course? Seemed fairly fast paced. I was only really able to keep up due to having completed the INF1A course publicly available via the university of Edinburgh.
 
 **References**
 
