@@ -7,30 +7,6 @@ module Chains where
   fashion. e.g. in task-2: defining my own helper function and using fmap
   or <$> to map sum across another function mapping (weird, I know)...
   It did however put me on the right track to finding the correct answer.
-
-  ...
-
-  I didn't realise there were 20 tasks!
-
-  Task1 : Line 79 to line 113.
-  Task2 : Line 115 to line 163.
-  Task3 : Line 165 to line 185. <-- stopping here for now...
-  Task4 : Line X to line Y.
-  Task5 : Line X to line Y.
-  Task6 : Line X to line Y.
-  Task7 : Line X to line Y.
-  Task8 : Line X to line Y.
-  Task9 : Line X to line Y.
-  Task10: Line X to line Y.
-  Task11: Line X to line Y.
-  Task12: Line X to line Y.
-  Task13: Line X to line Y.
-  Task14: Line X to line Y.
-  Task15: Line X to line Y.
-  Task16: Line X to line Y.
-  Task17: Line X to line Y.
-  Task18: Line X to line Y.
-  Task19: Line X to line Y.
 -}
 
 -- This is the definition of chains from the slides. We omit 'Foldable' from
@@ -179,12 +155,42 @@ propMaxChain' = (maximum <$> (map chainVal chains)) == [2, 4, 8, 8]
 
 maxChains' = maximum <$> (map chainVal chains)
 
+-- a much nicer LEGITIMATE implementation, someone tell me if it's
+-- not as it should be and: why :)
+
+maxChain' :: Chain Int -> Int
+maxChain' x = maximum (maxIntChain x)
+  where
+    maxIntChain :: Chain Int -> [Int]
+    maxIntChain GenesisBlock   =   []
+    maxIntChain (Block ch tx)  =   [tx] ++ maxIntChain ch
+
 propMaxChain :: Bool
 propMaxChain =
   map maxChain chains == [2, 4, 8, 8]
 
 {-
   Prelude> maxChains' == map maxChain chains
+  True
+-}
+
+-- &&
+
+{-
+  Prelude> :{
+  Prelude| maxChain' :: Chain Int -> Int
+  Prelude| maxChain' x = maximum (maxIntChain x)
+  Prelude|   where
+  Prelude|     maxIntChain :: Chain Int -> [Int]
+  Prelude|     maxIntChain GenesisBlock   =   []
+  Prelude|     maxIntChain (Block ch tx)  =   [tx] ++ maxIntChain ch
+  Prelude| :}
+  Prelude> maxChain' chain1
+  Prelude> :{
+  Prelude| propMaxChain'' :: Bool
+  Prelude| propMaxChain'' =  map maxChain' chains == [2, 4, 8, 8]
+  Prelude| :}
+  Prelude> propMaxChain''
   True
 -}
 
@@ -195,7 +201,7 @@ propMaxChain =
 -- the first.
 
 longerChain :: Chain txs -> Chain txs -> Chain txs
-longerChain = error "TODO: implement longerChain"
+longerChain x y = if (lengthChain x) >= (lengthChain y) then x else y
 
 propLongerChain1 :: Bool
 propLongerChain1 = longerChain chain1 chain2 == chain2
@@ -209,11 +215,14 @@ propLongerChain3 = longerChain chain2 chain3 == chain3
 propLongerChain4 :: Bool
 propLongerChain4 = longerChain chain3 chain4 == chain3
 
+-- modified propLengthChain2, 3 and 4 to propLongerChain2, 3 and 4
+-- if this prop was used during testing, the test would be 'invalid'
+
 propLongerChain5 :: Bool
 propLongerChain5 = and [ propLongerChain1
-                       , propLengthChain2
-                       , propLengthChain3
-                       , propLengthChain4
+                       , propLongerChain2
+                       , propLongerChain3
+                       , propLongerChain4
                        ]
 
 -- Task Chains-5.
