@@ -233,7 +233,15 @@ propLongerChain5 = and [ propLongerChain1
 -- are positive.) Check that a given chain is valid.
 
 validChain :: Chain Int -> Bool
-validChain = error "TODO: implement validChain"
+validChain cha = satisfyAsc (chainList cha)
+  where
+    chainList :: Chain Int -> [Int]
+    chainList GenesisBlock   =   []
+    chainList (Block c tx)   =   [tx] ++ chainList c
+    satisfyAsc :: (Ord x)    =>  [x]  -> Bool
+    satisfyAsc []            =   True
+    satisfyAsc [x]           =   True
+    satisfyAsc (x:y:xs)      =   if x > y then satisfyAsc (y:xs) else False
 
 propValidChain1 :: Bool
 propValidChain1 = validChain GenesisBlock
