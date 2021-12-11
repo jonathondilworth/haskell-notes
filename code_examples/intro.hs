@@ -262,6 +262,50 @@ propValidChain2 =
 -- performance or doing too much work. If all fails, skip
 -- to task 9.
 
+-- I know this is going to be heavily critised, but I'm just
+-- not quite there yet with the function programming mindset? 
+
+-- (an attempt): my implementation
+
+{-
+isPrefixOf :: Chain Int -> Chain Int -> Bool
+isPrefixOf chain1 chain2 = length (findCommonPre (cList chain1) (cList chain2)) > 0
+  where
+    cList :: Chain Int -> [Int]
+    cList GenesisBlock = []
+    cList (Block c tx) = (cList c) ++ [tx]
+    findCommonPre :: [Int] -> [Int] -> [Int]
+    findCommonPre [] _ = []
+    findCommonPre _ [] = []
+    findCommonPre (x:xs) (y:ys) = if x == y then [x] ++ (findCommonPre xs ys) else []
+-}
+
+-- this is not correct ^ I guess I'm still thinking kind of procedurally; and
+-- it's not even nice to read or concise, this is pretty tough for a week one
+-- exercise?
+
+-- there must be a simpler recursive call, I'm just looking at this and
+-- thinking I must be really stupid
+
+-- which cases are required? in the most base case...
+-- params:
+-- _ _
+-- chain _
+-- - chain -- and
+-- chain chain ?
+
+-- okay, so txs is a polymorphic type that derives Eq, meaning txs is comparable
+-- so, _ _ would be false
+-- chain _ would be false
+-- _ chain would be false
+-- gen gen would be true actually
+-- chain chain needs to compare each tx from txs, but thats like a bubble sort almost?
+-- that can't be right
+
+-- temporarily skip, GOTO 9
+
+-- I'm fed up of this for now, come back to this tomorrow.
+
 isPrefixOf :: Eq txs => Chain txs -> Chain txs -> Bool
 isPrefixOf = error "TODO: implement isPrefixOf"
 
