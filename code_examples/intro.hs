@@ -306,6 +306,61 @@ isPrefixOf chain1 chain2 = length (findCommonPre (cList chain1) (cList chain2)) 
 
 -- I'm fed up of this for now, come back to this tomorrow.
 
+-- isPrefixOf :: Eq txs => Chain txs -> Chain txs -> Bool
+-- isPrefixOf = error "TODO: implement isPrefixOf"
+
+-- isPrefixOf :: Eq txs => Chain txs -> Chain txs -> Bool
+-- isPrefixOf GenesisBlock  GenesisBlock   =   True
+-- isPrefixOf (Block ch tx) _              =   False
+-- so, if we're passing two chains, we can pass a chain and a block?
+
+-- we don't actually need the length of the prefix, so surly...
+-- the minimum length prefix is 1, so if the first elem from
+-- chain 1 is equal to the first elem of chain two, return true?
+-- tx1 == tx2
+
+{-
+
+isPrefixOf :: Eq txs => Chain txs -> Chain txs -> Bool
+isPrefixOf GenesisBlock  GenesisBlock    =   True
+isPrefixOf (Block c1 tx1) (Block c2 tx2) =   tx1 == tx2
+
+-}
+
+-- Prelude| isPrefixOf :: Eq txs => Chain txs -> Chain txs -> Bool
+-- Prelude| isPrefixOf GenesisBlock  GenesisBlock    =   True
+-- Prelude| isPrefixOf (Block c1 tx1) (Block c2 tx2) =   tx1 == tx2
+-- Prelude| :}
+-- Prelude> isPrefixOf chain3 ch
+-- ch3        ch4        chain1     chain2     chain3     chain4     chainList  chainVal   chains
+-- Prelude> isPrefixOf chain3 chain4
+-- False
+-- Prelude> chain3
+-- Block (Block (Block GenesisBlock 2) 8) 3
+-- Prelude> chain4
+-- Block (Block (Block GenesisBlock 2) 8) 4
+-- Prelude> chain1
+-- Block GenesisBlock 2
+-- Prelude> chain2
+-- Block (Block GenesisBlock 2) 4
+-- Prelude> isPrefixOf chain2 chain4
+-- True
+-- Prelude> -- okay, so this is backwards... but we're getting there...
+
+-- to check the first elem...
+-- let's not try and do this in any kind of funky way...
+
+-- isPrefixOf :: Eq txs => Chain txs -> Chain txs -> Bool
+-- isPrefixOf GenesisBlock   GenesisBlock    =   True
+-- isPrefixOf GenesisBlock   _               =   True
+-- isPrefixOf _              GenesisBlock    =   False
+-- isPrefixOf (Block c1 tx1) (Block c2 tx2)  =   tx1 == tx2 || isPrefixOf c1 c2
+
+-- isPrefixOf :: Eq txs => Chain txs -> Chain txs -> Bool
+-- isPrefixOf (Block c1 tx1) (Block c2 tx2)  =   tx1 == tx2 || isPrefixOf c1 c2
+
+-- much harder than I thought it would be.
+
 isPrefixOf :: Eq txs => Chain txs -> Chain txs -> Bool
 isPrefixOf = error "TODO: implement isPrefixOf"
 
@@ -402,8 +457,9 @@ propCommonPrefix5 =
 -- for our more general Chain type which is polymorphic
 -- in the type of transactions.
 
-hasBlockProp :: (txs -> Bool) -> Chain txs -> Bool
-hasBlockProp = error "TODO: implement hasBlockProp"
+hasBlockProp :: Eq txs => (txs -> Bool) -> Chain txs -> Bool
+hasBlockProp p GenesisBlock  = False
+hasBlockProp p (Block ch tx) = p tx || hasBlockProp p ch
 
 propHasBlockProp1 :: Bool
 propHasBlockProp1 = hasBlockProp even chain3
@@ -416,7 +472,7 @@ propHasBlockProp2 = not (hasBlockProp odd chain2)
 -- Reimplement hasBlock in terms of hasBlockProp.
 
 hasBlock :: Eq txs => txs -> Chain txs -> Bool
-hasBlock = error "TODO: implement hasBlock"
+hasBlock pTx chain = hasBlockProp (\x -> x == pTx) chain
 
 propHasBlock1 :: Bool
 propHasBlock1 = hasBlock 8 chain4
@@ -466,14 +522,18 @@ propAllBlockProp3 = not (allBlockProp even chain3)
 -- Given a list of chains, determine the maximum length.
 -- If the given list is empty, return 0.
 
-maxChains :: [Chain txs] -> Int
-maxChains = error "TODO: implement maxChains"
+maxChainss :: [Chain txs] -> Int
+maxChainss xChains = maximum (map length [genTxs x | x <- xChains])
+  where
+    genTxs :: Chain txs -> [txs]
+    genTxs GenesisBlock   =   []
+    genTxs (Block ch tx)  =   [tx] ++ genTxs ch
 
 propMaxChains1 :: Bool
-propMaxChains1 = maxChains [] == 0
+propMaxChains1 = maxChainss [] == 0
 
 propMaxChains2 :: Bool
-propMaxChains2 = maxChains [chain1, chain2, chain3] == 3
+propMaxChains2 = maxChainss [chain1, chain2, chain3] == 3
 
 -- Task Chains-14.
 --
@@ -646,3 +706,6 @@ propCutPrefix5 = and [ propCutPrefix1
                      , propCommonPrefix3
                      , propCommonPrefix4
                      ]
+
+
+-- TODO: Finish 6, 7, 8, 11, 12, 14, 15, 16, 17, 18, 19, 20
