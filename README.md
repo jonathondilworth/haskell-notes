@@ -11,8 +11,9 @@ Course offered by IOG, you can find accompanying information within the builders
 1. [Welcome Lecture, Blockchains, Cryptocurrencies, Beyond Generic Blockchains, Ideals, Hashing Functions, Transactional Ordering, Digital Signatures, Forking, Consensus Protocols, Consensus Properties (Termination, Agreement, Strong Validity), Transactions, Blocks, Fees, IOHK, Haskell](010-Welcome.md)
 2. [An overview of Haskell, Goals, History, Features, Algebraic Data Types, Type Inference, Type Classes, Data Constructors, Type Constructors, Polymorphism and Parametric Polymorphism, Referential Transparency, Eval, Functions, Nomenclature, Examples, Pattern Matching, Equational Reasoning, Currying, Symbolic Operators and Identifiers, Associativity of Infix Operators, Coding Examples (GHCi)](011-An-Overview-of-Haskell.md)
 3. [Higher Order Functions, Alternative Implementations, Type-Directed Programming, More On Type Inference, Deriving Instances, Pure Functions, Lazy Evaluation, Summary](012-An-Overview-Of-Haskell.md)
-4. [Basics: Prelude, Data Structure Composition: Catamorphism, Modules / Dependencies: Hackage, Documentation & Haddock, Booleans (Data Type, Constructors, Examples), Pattern Matching, Typed Holes, Some More On Functions, Guards.](020-Datatypes-Functions.md)
-5. Working Slowly (but surely).
+4. [Basics: Prelude, Data Structure Composition: Catamorphism, Modules / Dependencies: Hackage, Documentation & Haddock, Booleans (Data Type, Constructors, Examples), Pattern Matching, Typed Holes, Some More On Functions, Guards](020-Datatypes-Functions.md)
+5. [Maybe as a type constructor, Maybe as parameterised by a polymorphic type variable, Return in Haskell (Nothing), Functions Using Maybe, Pairs, Currying, Uncurrying](021-Maybe-And-Pairs.md)
+6. Working Slowly (but surely).
 
 **Code Examples**
 
