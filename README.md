@@ -11,12 +11,14 @@ Course offered by IOG, you can find accompanying information within the builders
 1. [Welcome Lecture, Blockchains, Cryptocurrencies, Beyond Generic Blockchains, Ideals, Hashing Functions, Transactional Ordering, Digital Signatures, Forking, Consensus Protocols, Consensus Properties (Termination, Agreement, Strong Validity), Transactions, Blocks, Fees, IOHK, Haskell](010-Welcome.md)
 2. [An overview of Haskell, Goals, History, Features, Algebraic Data Types, Type Inference, Type Classes, Data Constructors, Type Constructors, Polymorphism and Parametric Polymorphism, Referential Transparency, Eval, Functions, Nomenclature, Examples, Pattern Matching, Equational Reasoning, Currying, Symbolic Operators and Identifiers, Associativity of Infix Operators, Coding Examples (GHCi)](011-An-Overview-of-Haskell.md)
 3. [Higher Order Functions, Alternative Implementations, Type-Directed Programming, More On Type Inference, Deriving Instances, Pure Functions, Lazy Evaluation, Summary](012-An-Overview-Of-Haskell.md)
-4. *In the process of being written.*
+4. [Basics: Prelude, Data Structure Composition: Catamorphism, Modules / Dependencies: Hackage, Documentation & Haddock, Booleans (Data Type, Constructors, Examples), Pattern Matching, Typed Holes, Some More On Functions, Guards.](020-Datatypes-Functions.md)
+5. Working Slowly (but surely).
 
 **Code Examples**
 
 1. [Basic Propositional Logic Implementation (prop.hs)](code_examples/prop.hs)
 2. [Boilerplate Code For GHCi | Week One (week1.hs)](code_examples/week1.hs)
+3. [Attempt #1 @ week1 exercise, TODO: come back to this](code_examples/intro.hs)
 
 **Authors Note**
 
