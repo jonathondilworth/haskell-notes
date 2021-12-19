@@ -6,6 +6,32 @@
 
 Course offered by IOG, you can find accompanying information within the builders / pioneers announcements @ the IOG discord technical server.
 
+<details>
+
+<summary>Questions Extracted From Notes</summary>
+
+**Welcome Lecture**
+
+Question: would it be accurate to say that the definition of 'hiding' (for hash functions) can be phrased such that: given a hash function H, an inverse function H' does not exist. Thus, given $h(x) = y$, $h^{-1}(y) = x$ does not exist?
+
+Question: Given the statement regarding hash functions: "the input are arbitrary byte strings, so there are potentially infinitely many of those" - given that memory is discrete, how is it possible for there to be infinitely many input byte strings? Are we discussing hash functions in terms of their implementation on a discrete system, or their mathematical properties within 'the real world' / continuous space?
+
+Question (this was discussed within the IOG Discord, but I don't think consensus was necessarily reached on the outcome of the question, so I'll raise it here): if one was to push two transactions to chain with the intent to have them validated within the same block, is there anything stopping the outputs from one transaction acting as the inputs to the other? Emphasis being on: both transactions are not yet validated, but have been pushed to chain (or an SPO mempool) in an ordered fashion, such that the first transaction is pushed first and the second has been pushed second; can the second transaction use outputs from the first transaction whilst both being validated within the same block? My apologies if there is an obvious answer or is this is a silly question. I would actually be interested in knowing if this is possible in both accounting based models and UTxO based models.
+
+**An Overview Of Haskell**
+
+Having unpaused the video and read some more about currying - probably spending too much time on this, but I am pretty sure I understand what is going on, but I suppose my question really would be: what would be a concise and intuitive definition of the concept of currying within Haskell?
+
+**Higher Order Functions**
+
+Do you want to maintain data structures and their respective content as 'abstract' as possible before performing any kind of evaluation in order to, for instance, maintain as much precision as possible, or is this a non-issue?
+
+**Week Two**
+
+No Questions - the only comment I would have is that some of the videos do seem to skip quite quickly.
+
+</details>
+
 **Notes**
 
 1. [Welcome Lecture, Blockchains, Cryptocurrencies, Beyond Generic Blockchains, Ideals, Hashing Functions, Transactional Ordering, Digital Signatures, Forking, Consensus Protocols, Consensus Properties (Termination, Agreement, Strong Validity), Transactions, Blocks, Fees, IOHK, Haskell](010-Welcome.md)
@@ -13,7 +39,8 @@ Course offered by IOG, you can find accompanying information within the builders
 3. [Higher Order Functions, Alternative Implementations, Type-Directed Programming, More On Type Inference, Deriving Instances, Pure Functions, Lazy Evaluation, Summary](012-An-Overview-Of-Haskell.md)
 4. [Basics: Prelude, Data Structure Composition: Catamorphism, Modules / Dependencies: Hackage, Documentation & Haddock, Booleans (Data Type, Constructors, Examples), Pattern Matching, Typed Holes, Some More On Functions, Guards](020-Datatypes-Functions.md)
 5. [Maybe as a type constructor, Maybe as parameterised by a polymorphic type variable, Return in Haskell (Nothing), Functions Using Maybe, Pairs, Currying, Uncurrying](021-Maybe-And-Pairs.md)
-6. Working Slowly (but surely).
+6. [Cons, Breaking Lists Down With Cons, List Constructors, Functions On Lists, Either, Elem, Append, Reverse, Filter](022-Lists.md)
+7. Working Slowly (But Surely).
 
 **Code Examples**
 
