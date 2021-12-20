@@ -40,7 +40,7 @@ No Questions - the only comment I would have is that some of the videos do seem 
 4. [Basics: Prelude, Data Structure Composition: Catamorphism, Modules / Dependencies: Hackage, Documentation & Haddock, Booleans (Data Type, Constructors, Examples), Pattern Matching, Typed Holes, Some More On Functions, Guards](020-Datatypes-Functions.md)
 5. [Maybe as a type constructor, Maybe as parameterised by a polymorphic type variable, Return in Haskell (Nothing), Functions Using Maybe, Pairs, Currying, Uncurrying](021-Maybe-And-Pairs.md)
 6. [Cons, Breaking Lists Down With Cons, List Constructors, Functions On Lists, Either, Elem, Append, Reverse, Filter](022-Lists.md)
-7. Working Slowly (But Surely).
+7. [Lookup Tables, Writing In Progress...](023-Lookup-Tables.md)
 
 **Code Examples**
 
