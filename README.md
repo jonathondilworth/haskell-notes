@@ -28,7 +28,7 @@ Do you want to maintain data structures and their respective content as 'abstrac
 
 **Week Two**
 
-No Questions - the only comment I would have is that some of the videos do seem to skip quite quickly.
+TODO: Update this section.
 
 </details>
 
@@ -38,21 +38,28 @@ No Questions - the only comment I would have is that some of the videos do seem 
 2. [An overview of Haskell, Goals, History, Features, Algebraic Data Types, Type Inference, Type Classes, Data Constructors, Type Constructors, Polymorphism and Parametric Polymorphism, Referential Transparency, Eval, Functions, Nomenclature, Examples, Pattern Matching, Equational Reasoning, Currying, Symbolic Operators and Identifiers, Associativity of Infix Operators, Coding Examples (GHCi)](011-An-Overview-of-Haskell.md)
 3. [Higher Order Functions, Alternative Implementations, Type-Directed Programming, More On Type Inference, Deriving Instances, Pure Functions, Lazy Evaluation, Summary](012-An-Overview-Of-Haskell.md)
 4. [Basics: Prelude, Data Structure Composition: Catamorphism, Modules / Dependencies: Hackage, Documentation & Haddock, Booleans (Data Type, Constructors, Examples), Pattern Matching, Typed Holes, Some More On Functions, Guards](020-Datatypes-Functions.md)
-5. [Maybe as a type constructor, Maybe as parameterised by a polymorphic type variable, Return in Haskell (Nothing), Functions Using Maybe, Pairs, Currying, Uncurrying](021-Maybe-And-Pairs.md)
+5. [Maybe As A Type Constructor, Maybe As Parameterised By A Polymorphic Type Variable, Return In Haskell (Nothing), Functions Using Maybe, Pairs, Currying, Uncurrying](021-Maybe-And-Pairs.md)
 6. [Cons, Breaking Lists Down With Cons, List Constructors, Functions On Lists, Either, Elem, Append, Reverse, Filter](022-Lists.md)
-7. [Lookup Tables, Writing In Progress...](023-Lookup-Tables.md)
+7. [Lookup Tables, Type Synonyms, Tables and Table Functions, Some More On Recursion & Filter, newtype Keyword, More On Immutability, Types For Modelling Data Structures, Records, Accessors, Functions (Algorithms?) That Operate On Data Structures (e.g. Transactions & Processing Transactions - A Naive, Yet Interesting Example)](023-Lookup-Tables.md)
+8. Binary Trees - Skipped Note Making (see notes on: Expression Trees as Algebraic Data Types & More in Plutus Notes.
+9. ASTs - Skipped Note Making (see above).
+
+*There won't be too many additions to this Repo for a short while as the third Cohort of PPP starts. I don't have much time (as it currently stands), so I'll mainly be concentrating on the third cohort and any (potentially commercial) projects.*
 
 **Code Examples**
 
 1. [Basic Propositional Logic Implementation (prop.hs)](code_examples/prop.hs)
 2. [Boilerplate Code For GHCi | Week One (week1.hs)](code_examples/week1.hs)
 3. [Attempt #1 @ week1 exercise, TODO: come back to this](code_examples/intro.hs)
+4. [Boilerplate Code For GHCi | Various Snippets (maintained across multiple weeks)](code_examples/boiler.hs)
 
 **Authors Note**
 
 Having had some experience with Haskell as an undergraduate (a few years ago now), I realise (having taken the Plutus Pioneer Program) that I had only really scratched the surface. Thus, I reconsidered my goals, went back and undertook the introduction to Function Programming course provided by the University of Edinburgh (which I rate extremely highly).
 
 *I am about to start this course, I will update this README as I make some progress through the course. As always, my thanks to the course organisers, lecturers and TAs: Lars Brünjes, Andres Löh and Alejandro García.*
+
+<small>*Jan 9th 2022: I had to take about three weeks leave (during the holiday season) due to multiple (quite serious) reasons. I will be online and active as much as possible. This note will be erased when I can return to taking an actively full time role in this community and projects in general.*</small>
 
 <hr />
 
@@ -72,3 +79,9 @@ Having had some experience with Haskell as an undergraduate (a few years ago now
 * INF1A: [https://github.com/jonathondilworth/detailed-plutus-lecture-notes/tree/main/haskell-notes](https://github.com/jonathondilworth/detailed-plutus-lecture-notes/tree/main/haskell-notes)
 * BDL: [https://github.com/jonathondilworth/blockchaincourse/tree/master/My%20Notes](https://github.com/jonathondilworth/blockchaincourse/tree/master/My%20Notes)
 
+**Interesting Discussions and Materials**
+
+* [Why Isn't Functional Programming the Norm? – Richard Feldman](https://youtu.be/QyJZzq0v7Z4)
+* [Why Is Haskell So Hard To Learn And How To Deal With It](https://youtu.be/RvRVn8jXoNY)
+* [Charles Hoskinson - Is Haskell Too Hard?](https://youtu.be/5SD2j9k6E7c)
+* [Constraints Liberate, Liberties Constrain — Runar Bjarnason (Scala)](https://youtu.be/GqmsQeSzMdw)
